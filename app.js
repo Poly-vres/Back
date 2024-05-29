@@ -156,12 +156,43 @@ app.post("/library_books/reserve/:userId/:bookId", async (req, res) => {
     }
 });
 
+app.post("/library_user_status_update/:userId/:status", async (req, res) => {
+    const userId = req.params.userId;
+    const status = req.params.status;
 
+    let conn;
+    try {
+        conn = await mangaPool.getConnection();
 
+        const result = await conn.query(
+            "UPDATE library_users SET status  = ? WHERE id = ?;",
+            [status, userId]
+        );
 
+        if (result.affectedRows === 0) {
+            return res.status(404).json({
+                error: `No book found with id: ${bookId}`
+            });
+        }
 
+        const serializedResult = JSON.parse(JSON.stringify(result, (key, value) =>
+            typeof value === 'bigint' ? value.toString() : value
+        ));
 
-
+        res.json({
+            message: `The user ${userId} has now the status: ${status}`,
+            result: serializedResult
+        });
+    } catch (err) {
+        console.error("Error executing query:", err);
+        res.status(500).json({
+            error: "Internal Server Error",
+            details: err.message
+        });
+    } finally {
+        if (conn) conn.release();
+    }
+});
 
 
 //reserve a book
