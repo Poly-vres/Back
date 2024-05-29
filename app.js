@@ -194,6 +194,23 @@ app.post("/library_user_status_update/:userId/:status", async (req, res) => {
     }
 });
 
+//route to add an user to the database
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //reserve a book
 /*
 app.post("/library_books/reserve/:id_user/:id_book", async (req, res) => {
