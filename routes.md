@@ -2,12 +2,6 @@
 
 *ne marche pas sur la connexion de l'université !*
 
-### Make an user book a book
-**POST REQUEST**
-`http://146.59.233.238:3000/library_books/reserve/user_id/book_id`  
-
-*example:*
-`http://146.59.233.238:3000/library_books/reserve/22/11`
 
 ### Get all books list
 **GET REQUEST**
@@ -16,6 +10,24 @@
 ### Get all users list
 **GET REQUEST**
 `http://146.59.233.238:3000/library_users`
+
+
+### Make an user book a book
+**POST REQUEST**
+`http://146.59.233.238:3000/library_books/reserve/user_id/book_id`  
+
+*example:*
+`http://146.59.233.238:3000/library_books/reserve/22/11`
+
+**To make an user free a book**
+`http://146.59.233.238:3000/library_books/reserve/null/book_id`  
+
+### Create a new user
+**POST REQUEST**
+`http://146.59.233.238:3000/library_users/create/:name/:surname/:username/:password`
+
+*example:*
+`http://146.59.233.238:3000/library_users/create/jeanjean/valljean/boss69/pwd
 
 ### Update a user's status
 **POST REQUEST**
@@ -36,11 +48,3 @@ valid values:
 *example:*
 `http://146.59.233.238:3000/library_users/connect/claquettes/super_password`
 
-### Create a new user
-**POST REQUEST**
-`http://146.59.233.238:3000/library_users/create/:name/:surname/:username/:password`
-
-*example:*
-`http://146.59.233.238:3000/library_users/create/jeanjean/valljean/boss69/pwd
-
-### Re

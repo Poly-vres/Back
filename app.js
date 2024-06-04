@@ -226,14 +226,13 @@ app.post("/library_users/create/:name/:surname/:username/:password", async (req,
         }
 
         // If the user does not exist, create a new user
-        const result = await conn.query(
+        await conn.query(
             "INSERT INTO library_users (name, surname, username, password) VALUES (?, ?, ?, ?);",
             [name, surname, username, password]
         );
 
         res.json({
-            message: `The user ${username} has been created`,
-            result: result
+            message: `The user ${username} has been created`
         });
     } catch (err) {
         console.error("Error executing query:", err);
@@ -302,4 +301,3 @@ app.listen(PORT, () => {
     }, 60000);
 });
 
-//TODO: FAIRE UNE ROUTE DE CONNEXION, DE CREATION DE COMPTE
