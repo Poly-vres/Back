@@ -36,3 +36,11 @@ valid values:
 *example:*
 `http://146.59.233.238:3000/library_users/connect/claquettes/super_password`
 
+### Create a new user
+**POST REQUEST**
+`http://146.59.233.238:3000/library_users/create/:name/:surname/:username/:password`
+
+*example:*
+`http://146.59.233.238:3000/library_users/create/jeanjean/valljean/boss69/pwd
+
+### Re
