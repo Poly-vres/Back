@@ -97,7 +97,6 @@ app.post("/libray_users", async (req, res) => {
 });
 
 
-
 app.post("/library_books/reserve/:userId/:bookId", async (req, res) => {
     const userId = req.params.userId;
     const bookId = req.params.bookId;
@@ -156,9 +155,9 @@ app.post("/library_books/reserve/:userId/:bookId", async (req, res) => {
     }
 });
 
-app.post("/library_user_status_update/:userId/:status", async (req, res) => {
+app.post("/library_user_status_update/:userId/:pwd", async (req, res) => {
     const userId = req.params.userId;
-    const status = req.params.status;
+    const pwd = req.params.pwd;
 
     let conn;
     try {
@@ -170,14 +169,21 @@ app.post("/library_user_status_update/:userId/:status", async (req, res) => {
         );
 
         if (result.affectedRows === 0) {
-            return res.status(404).json({
-                error: `No book found with id: ${bookId}`
+            return res.status(418).json({
+                error: `No user found with id: ${userId}`
             });
         }
 
-        const serializedResult = JSON.parse(JSON.stringify(result, (key, value) =>
-            typeof value === 'bigint' ? value.toString() : value
-        ));
+        const pwd = await conn.query(
+            "SELECT password FROM library_users WHERE id = ?;",
+            [userId]
+        );
+
+        if (pwd[0].password === pwd) {
+            return res.status(418).json({
+                error: `The password is incorrect`
+            });
+        }
 
         res.json({
             message: `The user ${userId} has now the status: ${status}`,
@@ -194,21 +200,49 @@ app.post("/library_user_status_update/:userId/:status", async (req, res) => {
     }
 });
 
-//route to add an user to the database
+//route to connect to the site
+app.post("/library_users/connect/:username/:password", async (req, res) => {
+        const username = req.params.username;
+        const password = req.params.password;
 
+        let conn;
+        try {
+            conn = await mangaPool.getConnection();
 
+            let correct = false;
+            //we first check if the user exists, then if the password is correct
 
+            const user = await conn.query(
+                "SELECT * FROM library_users WHERE username = ?;",
+                [username]
+            );
 
+            if (user.length === 0) {
+                return res.status(404).json({
+                    error: `No user found with username: ${username}`
+                });
+            }
 
-
-
-
-
-
-
-
-
-
+            if (user[0].password === password) {
+                res.json({
+                    message: `The user ${username} is now connected`,
+                });
+            } else {
+                res.status(418).json({
+                    error: `The password is incorrect`
+                });
+            }
+        } catch (err) {
+            console.error("Error executing query:", err);
+            res.status(500).json({
+                error: "Internal Server Error",
+                details: err.message
+            });
+        } finally {
+            if (conn) conn.release();
+        }
+    }
+);
 
 
 //reserve a book
@@ -251,3 +285,4 @@ app.listen(PORT, () => {
     }, 60000);
 });
 
+//TODO: FAIRE UNE ROUTE DE CONNEXION, DE CREATION DE COMPTE

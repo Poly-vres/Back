@@ -28,3 +28,11 @@ valid values:
 - revoked
 - approved
 - pending (default)
+
+### Connect a user 
+**POST REQUEST**
+
+`http://146.59.233.238:3000/library_users/connect/:username/:password`
+*example:*
+`http://146.59.233.238:3000/library_users/connect/claquettes/super_password`
+
