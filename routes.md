@@ -16,7 +16,7 @@
 **POST REQUEST**
 `http://146.59.233.238:3000/library_books/reserve/user_id/book_id`  
 
-*example:*
+*example:*   
 `http://146.59.233.238:3000/library_books/reserve/22/11`
 
 **To make an user free a book**
@@ -26,14 +26,14 @@
 **POST REQUEST**
 `http://146.59.233.238:3000/library_users/create/:name/:surname/:username/:password`
 
-*example:*
+*example:*   
 `http://146.59.233.238:3000/library_users/create/jeanjean/valljean/boss69/pwd
 
 ### Update a user's status
 **POST REQUEST**
 
 `http://146.59.233.238:3000/library_user_status_update/user_id/status`
-*example:*  
+*example:*     
 `http://146.59.233.238:3000/library_user_status_update/23/revoked`
 
 valid values:
@@ -45,6 +45,7 @@ valid values:
 **POST REQUEST**
 
 `http://146.59.233.238:3000/library_users/connect/:username/:password`
-*example:*
-`http://146.59.233.238:3000/library_users/connect/claquettes/super_password`
+*example:*   
+`http://146.59.233.238:3000/library_users/connect/claquettes/super_password`   
 
+**will return `message: `admin` if the user that just connected is an admin**

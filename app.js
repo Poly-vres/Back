@@ -269,9 +269,16 @@ app.post("/library_users/connect/:username/:password", async (req, res) => {
             }
 
             if (user[0].password === password) {
-                res.json({
-                    message: `The user ${username} is now connected`,
-                });
+
+                if (user[0].admin === 1 || user[0].admin == 1) {
+                    res.json({
+                        message: `admin`,
+                    });
+                } else {
+                    res.json({
+                        message: `The user ${username} is now connected (not in admin mode)`,
+                    });
+                }
             } else {
                 res.status(418).json({
                     error: `The password is incorrect`
@@ -288,7 +295,6 @@ app.post("/library_users/connect/:username/:password", async (req, res) => {
         }
     }
 );
-
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
